@@ -1,5 +1,8 @@
 #!/usr/bin/python
-import math
+from scipy.spatial.distance import pdist, squareform, euclidean
+from sklearn.cross_validation import KFold
+import numpy as np
+import time
 
 # Training Set S 
 # Have M samples
@@ -17,5 +20,45 @@ import math
 # KNN training set S :
 # @param	x	training set  S
 # @param	z 	Several of training sets Z
-def Cal_Class_Contribution(x, z):
-	pass
+
+#def Cal_Class_Contribution(x):
+	# Divided into T class in S
+	# T = 0
+	# label = 0~38; (Save them in Hash table, T = len(Hash table)) || (Save the Maximum Value in T)
+	# if label > T:
+	# 	T = label
+
+
+	# m = len(x)
+	# print 'len(x) = ' , m
+
+
+def main():
+    # read data
+    data = np.genfromtxt('./knn-data.txt',  delimiter=" ", skip_header=False)
+
+    hash_table = {}
+    for labels in data:
+    	label = labels[-1]
+    	# print 'label', label
+    	if hash_table.has_key(label):
+    		hash_table[label] += 1
+    	else:
+    		hash_table[label] = 0
+
+    # |t  | Done.
+    # | ij|
+    print 'hash_table = ', hash_table
+
+    # T Done.
+    T = len(hash_table.keys())
+    print 'T = ', T
+
+    # |t r| not Done.
+    # | ij|
+
+
+	# Cal_Class_Contribution(x)
+
+if __name__ == '__main__':
+	main()
