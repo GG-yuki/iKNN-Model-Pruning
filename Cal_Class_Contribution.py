@@ -37,25 +37,58 @@ def main():
     # read data
     data = np.genfromtxt('./knn-data.txt',  delimiter=" ", skip_header=False)
 
-    hash_table = {}
+    class_hash_table = {}
+    feature_hash_table = {}
+    # n :the number of Condition attribute
+    n_status = False
     for labels in data:
+
+        # Calculate |t r|
+        #           | ij|
+        if n_status != True:
+            print 'labels -->', labels
+            n = len(labels) - 1
+            n_status = True
+
+        # Calculate T
     	label = labels[-1]
-    	# print 'label', label
-    	if hash_table.has_key(label):
-    		hash_table[label] += 1
+    	if class_hash_table.has_key(label):
+    		class_hash_table[label] += 1
     	else:
-    		hash_table[label] = 0
+    		class_hash_table[label] = 1
+
+        # Calculate |t  |
+        #           | ij|
+        # 
+        # Input :
+        # Sample +-------+
+        #        |1 4 5 8|
+        #        |2 4 3 8|
+        # Sample +-------+
+        #
+        # Output:
+        # {"0 1":1, "0 2":1, "1 4":2, "2 3":1, "2 5":1, "3 8":1}
+        for i, feature in enumerate(labels[:-1]):
+            if feature_hash_table.has_key("{0} {1}".format(i, feature)):
+                feature_hash_table["{0} {1}".format(i, feature)] += 1
+            else:
+                feature_hash_table["{0} {1}".format(i, feature)] = 1
+
+
+    
+    print 'class_hash_table = ', class_hash_table
+
+    # T     Done.
+    T = len(class_hash_table.keys())
+    print 'T = ', T
+
+    # |t r| Done.
+    # | ij|
+    print 'n = ', n
 
     # |t  | Done.
     # | ij|
-    print 'hash_table = ', hash_table
-
-    # T Done.
-    T = len(hash_table.keys())
-    print 'T = ', T
-
-    # |t r| not Done.
-    # | ij|
+    print 'feature_hash_table = ', feature_hash_table
 
 
 	# Cal_Class_Contribution(x)
