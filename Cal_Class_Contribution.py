@@ -51,7 +51,7 @@ def main():
             n_status = True
 
         # Calculate T
-    	label = labels[-1]
+    	label = int(labels[-1])
     	if class_hash_table.has_key(label):
     		class_hash_table[label] += 1
     	else:
@@ -61,18 +61,20 @@ def main():
         #           | ij|
         # 
         # Input :
-        # Sample +-------+
-        #        |1 4 5 8|
-        #        |2 4 3 8|
-        # Sample +-------+
+        # Sample +---------------+
+        #        |1 0 5 8 class:5|
+        #        |2 4 0 8 class:5|
+        # Sample +---------------+
         #
         # Output:
-        # {"0 1":1, "0 2":1, "1 4":2, "2 3":1, "2 5":1, "3 8":1}
+        # {"class index"}
+        # Sample {"5 0":2, "5 1":1, "5 2":1, "5 3":2}
         for i, feature in enumerate(labels[:-1]):
-            if feature_hash_table.has_key("{0} {1}".format(i, feature)):
-                feature_hash_table["{0} {1}".format(i, feature)] += 1
-            else:
-                feature_hash_table["{0} {1}".format(i, feature)] = 1
+            if feature != 0:
+                if feature_hash_table.has_key("{0} {1}".format(label, i)):
+                    feature_hash_table["{0} {1}".format(label, i)] += 1
+                else:
+                    feature_hash_table["{0} {1}".format(label, i)] = 1
 
 
     
@@ -89,6 +91,22 @@ def main():
     # |t  | Done.
     # | ij|
     print 'feature_hash_table = ', feature_hash_table
+
+
+    # use et_list +-------+ means Class Contribution
+    #             |0 --> n|
+    #             ||      |
+    #             |T      |
+    #             +-------+
+    # et_list = [[0 for col in range(n+1)] for row in range(T)]
+    
+    # for key in class_hash_table:
+    #     for i in range(n+1):
+    #         for j in range(T):
+    #             if j == 0:
+    #                 et_list[i][j] = key
+    #             else:
+
 
 
 	# Cal_Class_Contribution(x)
