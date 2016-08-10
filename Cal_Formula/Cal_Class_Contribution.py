@@ -33,9 +33,9 @@ import time
 	# print 'len(x) = ' , m
 
 
-def main():
+def Cal_Class_Contribution(data_file):
     # read data
-    data = np.genfromtxt('./knn-data.txt',  delimiter=" ", skip_header=False)
+    data = np.genfromtxt(data_file,  delimiter=" ", skip_header=False)
 
     class_hash_table = {}
     feature_hash_table = {}
@@ -116,11 +116,6 @@ def main():
 
                 et_list[i][j] = -(autosum/T)
 
-    print et_list
+    return et_list
 
 
-
-	# Cal_Class_Contribution(x)
-
-if __name__ == '__main__':
-	main()
