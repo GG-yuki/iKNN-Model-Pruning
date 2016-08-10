@@ -90,22 +90,33 @@ def main():
 
     # |t  | Done.
     # | ij|
-    print 'feature_hash_table = ', feature_hash_table
+    #print 'feature_hash_table = ', feature_hash_table
 
 
-    # use et_list +-------+ means Class Contribution
+    # use et_list +-------+ means Class Contribution Done.
     #             |0 --> n|
     #             ||      |
     #             |T      |
     #             +-------+
-    # et_list = [[0 for col in range(n+1)] for row in range(T)]
+    et_list = [[0 for col in range(n+1)] for row in range(T)]
     
-    # for key in class_hash_table:
-    #     for i in range(n+1):
-    #         for j in range(T):
-    #             if j == 0:
-    #                 et_list[i][j] = key
-    #             else:
+    class_arr = []
+    for i in class_hash_table.keys():
+        class_arr.append(i)
+
+    for i in range(0,T):
+        for j in range(0,n+1):
+            if j == 0:
+                et_list[i][j] = class_arr[i]
+            else:
+                autosum = 0
+                for key2 in class_hash_table:
+                    tij = feature_hash_table.get("{0} {1}".format(key2, j-1))
+                    autosum += n / tij
+
+                et_list[i][j] = -(autosum/T)
+
+    print et_list
 
 
 
