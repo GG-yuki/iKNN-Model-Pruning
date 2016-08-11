@@ -116,6 +116,6 @@ def Cal_Class_Contribution(data_file):
 
                 et_list[i][j] = -(autosum/T)
 
-    return et_list
+    return et_list,feature_hash_table
 
 
