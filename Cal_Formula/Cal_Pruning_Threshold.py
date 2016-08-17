@@ -1,7 +1,6 @@
 #!usr/bin/python
 from __future__ import division  
 from scipy.spatial.distance import pdist, squareform, euclidean
-from sklearn.cross_validation import KFold
 import numpy as np
 import time
 
@@ -17,11 +16,11 @@ from Cal_Formula import Cal_Class_Contribution as class_contribution
 #
 # Output : W(S) / m  which is KNN-MODEL Pruning Threshold.
 
-def main():
+def Cal_Pruning_Threshold(data_file):
 
-	et_list,feature_hash_table = class_contribution.Cal_Class_Contribution('./knn-data.txt')
+	et_list,feature_hash_table = class_contribution.Cal_Class_Contribution(data_file)
 
-	data = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
+	data = np.genfromtxt(data_file, delimiter=" ", skip_header=False)
 	m = len(data)
 
 	# autosum in Format 5. 
@@ -57,7 +56,3 @@ def main():
 
 	# return W(S)
 	return w_sum / m
-
-
-if __name__ == '__main__':
-	main()

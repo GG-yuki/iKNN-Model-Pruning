@@ -1,6 +1,5 @@
 #!/usr/bin/python
 from scipy.spatial.distance import pdist, squareform, euclidean
-from sklearn.cross_validation import KFold
 import numpy as np
 import time
 
