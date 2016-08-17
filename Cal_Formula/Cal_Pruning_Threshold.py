@@ -55,4 +55,4 @@ def Cal_Pruning_Threshold(data_file):
 	print w_sum / m
 
 	# return W(S)
-	return w_sum / m
+	return w_sum / m, w_sx

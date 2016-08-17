@@ -9,10 +9,19 @@ from Cal_Formula import Cal_Class_Contribution as C_C_C
 
 def main():
     # Get Pruning Threshold.
-    W_S = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
+    W_S, W_SX = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
 
     # get data to pruning.
-    data = np.genfromtxt(data_file, delimiter=" ", skip_header=False)
+    data = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
+
+    # print W_SX
+    print len(data)
+
+    for i, W_X in enumerate(W_SX):
+        if W_X < W_S:
+            del data[i]
+
+    print len(data)
 
 
 
