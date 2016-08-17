@@ -8,20 +8,40 @@ from Cal_Formula import Cal_Class_Contribution as C_C_C
 # KNN-MODEL-PRUNING
 
 def main():
-    # Get Pruning Threshold.
+
+    # Step 1 ~ 4:
+    # Get Pruning Threshold of Traning Set S.
     W_S, W_SX = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
+    # Get Pruning Threshold of Traning Set Z1.
+    W_Z, W_ZX = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
 
     # get data to pruning.
-    data = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
+    dataS = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
+    dataZ = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
 
     # print W_SX
-    print len(data)
+    print len(dataS)
+    new_traning_set_S = []
 
+    # Step 5:
+    # Reduce Traning Set S.
     for i, W_X in enumerate(W_SX):
-        if W_X < W_S:
-            del data[i]
+        if W_X > W_S:
+            new_traning_set_S.append(dataS[i])
 
-    print len(data)
+    print len(new_traning_set_S)
+
+    # Step 6:
+    # Add Traning Set S.
+    for i, W_X in enumerate(W_ZX):
+        if W_X > W_Z:
+            new_traning_set_S.append(dataZ[i])
+
+    print len(new_traning_set_S)
+
+
+
+    np.savetxt("new_traning_set_S.txt", new_traning_set_S, fmt='%.8f')
 
 
 
