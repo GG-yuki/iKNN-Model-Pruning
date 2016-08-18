@@ -7,17 +7,23 @@ from Cal_Formula import Cal_Class_Contribution as C_C_C
 
 # KNN-MODEL-PRUNING
 
-def main():
+# Knn_Model_Pruning
+# @param traningSetS list
+# @param traningSetZFile string
+# return new_traning_set_S list
+def Knn_Model_Pruning(traningSetS, traningSetZFile):
+
 
     # Step 1 ~ 4:
     # Get Pruning Threshold of Traning Set S.
-    W_S, W_SX = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
+    W_S, W_SX = C_P_T.Cal_Pruning_Threshold_By_Data(traningSetS)
     # Get Pruning Threshold of Traning Set Z1.
-    W_Z, W_ZX = C_P_T.Cal_Pruning_Threshold('./knn-data.txt')
+    W_Z, W_ZX = C_P_T.Cal_Pruning_Threshold_By_File(traningSetZFile)
 
     # get data to pruning.
-    dataS = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
-    dataZ = np.genfromtxt('./knn-data.txt', delimiter=" ", skip_header=False)
+    # dataS = np.genfromtxt(traningSetS, delimiter=" ", skip_header=False)
+    dataS = traningSetS
+    dataZ = np.genfromtxt(traningSetZFile, delimiter=" ", skip_header=False)
 
     # print W_SX
     print len(dataS)
@@ -40,11 +46,9 @@ def main():
     print len(new_traning_set_S)
 
 
+    return new_traning_set_S
+    
+    # np.savetxt("new_traning_set_S.txt", new_traning_set_S, fmt='%.8f')
 
-    np.savetxt("new_traning_set_S.txt", new_traning_set_S, fmt='%.8f')
 
 
-
-
-if __name__ == '__main__':
-    main()

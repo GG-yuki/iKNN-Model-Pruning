@@ -31,8 +31,8 @@ import time
 	# m = len(x)
 	# print 'len(x) = ' , m
 
-
-def Cal_Class_Contribution(data_file):
+# Read Data By File.
+def Cal_Class_Contribution_By_File(data_file):
     # read data
     data = np.genfromtxt(data_file,  delimiter=" ", skip_header=False)
 
@@ -45,7 +45,7 @@ def Cal_Class_Contribution(data_file):
         # Calculate |t r|
         #           | ij|
         if n_status != True:
-            print 'labels -->', labels
+            # print 'labels -->', labels
             n = len(labels) - 1
             n_status = True
 
@@ -118,3 +118,87 @@ def Cal_Class_Contribution(data_file):
     return et_list,feature_hash_table
 
 
+# Read Data By List.
+def Cal_Class_Contribution_By_Data(data):
+
+    class_hash_table = {}
+    feature_hash_table = {}
+    # n :the number of Condition attribute
+    n_status = False
+    for labels in data:
+
+        # Calculate |t r|
+        #           | ij|
+        if n_status != True:
+            # print 'labels -->', labels
+            n = len(labels) - 1
+            n_status = True
+
+        # Calculate T
+    	label = int(labels[-1])
+    	if class_hash_table.has_key(label):
+    		class_hash_table[label] += 1
+    	else:
+    		class_hash_table[label] = 1
+
+        # Calculate |t  |
+        #           | ij|
+        # 
+        # Input :
+        # Sample +---------------+
+        #        |1 0 5 8 class:5|
+        #        |2 4 0 8 class:5|
+        # Sample +---------------+
+        #
+        # Output:
+        # {"class index"}
+        # Sample {"5 0":2, "5 1":1, "5 2":1, "5 3":2}
+        for i, feature in enumerate(labels[:-1]):
+            if feature != 0:
+                if feature_hash_table.has_key("{0} {1}".format(label, i)):
+                    feature_hash_table["{0} {1}".format(label, i)] += 1
+                else:
+                    feature_hash_table["{0} {1}".format(label, i)] = 1
+
+
+    
+    print 'class_hash_table = ', class_hash_table
+
+    # T     Done.
+    T = len(class_hash_table.keys())
+    print 'T = ', T
+
+    # |t r| Done.
+    # | ij|
+    print 'n = ', n
+
+    # |t  | Done.
+    # | ij|
+    #print 'feature_hash_table = ', feature_hash_table
+
+
+    # use et_list +-------+ means Class Contribution Done.
+    #             |0 --> n|
+    #             ||      |
+    #             |T      |
+    #             +-------+
+    et_list = [[0 for col in range(n+1)] for row in range(T)]
+    
+    class_arr = []
+    for i in class_hash_table.keys():
+        class_arr.append(i)
+
+    for i in range(0,T):
+        for j in range(0,n+1):
+            if j == 0:
+                et_list[i][j] = class_arr[i]
+            else:
+                autosum = 0
+                for key2 in class_hash_table:
+                    tij = feature_hash_table.get("{0} {1}".format(key2, j-1))
+                    if isinstance(tij, int):
+                        autosum += n / tij
+
+                et_list[i][j] = -(autosum/T)
+
+    return et_list,feature_hash_table
